@@ -1,0 +1,112 @@
+[Post] job title
+
+Feature: Happy case
+Scenario: #CR-JOB1 - Create job title successfully without specification file
+  Given user have a valid request body with title, description and note
+  When user send POST request to /jobTitle API with: title: test123, description: description123, jobSpecification: null, note: note 123,
+  Then the response status should be 200
+  And the response should contain job title id
+  And the title should be "test123"
+  And the description should be "description123"
+  And the note should be "note 123"
+  And jobSpecification should be null
+  And the response should match JSON schema:
+{
+  "data": {
+	"id": number,
+	"title": string,
+	"description": string,
+	"note": string,
+	"jobSpecification": {
+		"id": number | null,
+		"filename": string | null,
+		"fileType": string | null,
+		"fileSize": string | null }
+	},
+	"meta": [],
+	"rels": []
+}
+
+Scenario: #CR-JOB2 - Create job title with specification file
+  Given user have a valid request body with title, description and note
+  And user attach a valid specification file
+  When user send POST request to /jobTitle API with: title: test123, description: description123, jobSpecification: null, note: note 123,
+  Then the response status should be 200
+  And jobSpecification id should not be null
+  And filename should match uploaded file
+  And fileType should be correct
+  And fileSize should be greater than 0
+
+Scenario: #CR-JOB3 - Create job title successfully with only title
+  Given user have a valid request body with title
+  When user send POST request to /jobTitle API with: title: valid title only, description: "", jobSpecification: null, note: "",
+  Then the response status should be 200
+  And the response should contain job title id
+  And the title should be "valid title only"
+  And the description should be empty
+  And the note should be empty
+  And jobSpecification should be null
+
+
+Feature: Unhappy case
+Scenario: #CR-JOB4 - Create job title with empty title
+  Given request body with empty title
+  When user send POST request to /jobTitle API with: { title: "", description: description123, jobSpecification: null, note: note 123}
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "title" ]}}
+
+Scenario: #CR-JOB5 - Create job title without title
+  Given request body without title
+  When user send POST request to /jobTitle API with: { description: description123, jobSpecification: null, note: note 123}
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "title" ]}}
+
+Scenario: #CR-JOB6 - Create job title with long name
+  Given request title longer than allowed limit (e.g. 100 chars)
+  When user send POST request  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "title" ]}}
+
+Scenario: #CR-JOB7 - Create job title with title exceeds max length
+  Given request title longer than allowed limit (e.g. 100 chars)
+  When user send POST request
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "title" ]}}
+
+Scenario: #CR-JOB8 - Create job title with duplicate title
+  Given a job title "test123" already exists
+  When user send POST request
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "title" ]}}
+
+Scenario: #CR-JOB9 - Create job title with Upload unsupported file type
+  Given attach file with other type image (pdf / exe / txt)
+  When user send POST request
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "specification" ]}}
+
+Scenario: #CR-JOB10 - Create job title with Upload empty file
+  Given attach empty file
+  When user send POST request
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "specification" ]}}
+
+Scenario: #CR-JOB11 - Create job title with Upload large file size
+  Given attach file large than 1 mb
+  When user send POST request
+  Then response status should be 422
+  And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "specification" ]}}
+
+Scenario: #CR-JOB12 - Create job title without cookie
+  Given request body without cookie
+  When user send POST request
+  Then response status should be 401 Unauthorized
+  And The system returns error message: "Session expired"
+
+Scenario: #CR-JOB13 - Create job title with invalid cookie
+  Given request body with invalid cookie
+  When user send POST request
+  Then response status should be 401 Unauthorized
+  And The system returns error message: "Session expired"
+
+
+

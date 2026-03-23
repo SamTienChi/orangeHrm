@@ -1,0 +1,137 @@
+[Get] Job titles
+
+Feature: Happy case
+Scenario: #TC1 - Return default job titles when limit is 0
+Given The system has job title
+When user request job titles with :limit 0 , offset 0 , sortField=jt.jobTitle and sortOrder=ASC
+Then response status must be 200
+And The system returns all list of job titles with total
+And the response should match JSON schema:
+{
+    "data": [
+        {
+            "id": number,
+            "title": string,
+            "description": string,
+            "note": string,
+            "jobSpecification": {
+                "id": number | null,
+                "filename": string | null,
+                "fileType": string | null,
+                "fileSize": string | null
+            }
+        }
+    ],
+    "meta": {
+        "total": number
+    },
+    "rels": []
+}
+
+Scenario: #TC2 - Return default job titles when no parameters are provided
+Given The system has job title
+When user request job titles without any parameters
+Then response status must be 200
+And The system returns all list of job titles with total
+
+Scenario: #TC3 - Limit the number of returned job titles
+Given The system has job title
+When user request job titles with: limit=10, offset=0 ,sortField=jt.jobTitle ,sortOrder=ASC"
+Then response status must be 200
+And the system returns a list of job titles
+And the number of returned job titles is 10
+
+Scenario: #TC4 - Handle very large limit value
+Given The system has job title
+When user request job titles with: limit=99999999999999999999999999999999999, offset=0 ,sortField=jt.jobTitle ,sortOrder=ASC"
+Then response status must be 200
+And The system returns all list of job titles with total
+And the number of returned job titles does not exceed system limits
+
+Scenario: #TC5 - Return correctly offset of job titles
+Given The system has job title
+When user request job titles with: limit=5, offset=2 ,sortField=jt.jobTitle ,sortOrder=ASC"
+Then response status must be 200
+And The system returns a list of job titles
+And the number of returned record must start 6th.
+
+Scenario: #TC6 - Return correctly offset of job titles
+Given The system has job title
+When user request job titles with: limit=5, offset=2 ,sortField=jt.jobTitle ,sortOrder=ASC"
+Then response status must be 200
+And The system returns a list of job titles with limit 5.
+And the returned are the records starting from position 6.
+
+Scenario: #TC7 - Handle very large offset value
+Given The system has job title
+When user request job titles with: limit=5 offset=99999999999999999999999999999999999, ,sortField=jt.jobTitle ,sortOrder=ASC"
+Then response status must be 200
+And The system returns empty list of job titles.
+
+Scenario: #TC8 - Return data with sort in descending order
+Given The system has job title
+When user request job titles with: limit=10 offset=0, ,sortField=jt.jobTitle ,sortOrder=DESC
+Then response status must be 200
+And The system returns  data with sorted in descending order
+
+
+Feature: Unhappy case
+Scenario: #TC9 -  API when access without cookie
+Given The system has job title
+When user request without authentication cookie.
+Then response status must be 401 Unauthorized
+And The system returns error message: "Session expired"
+
+Scenario: #TC10 -  API when access with invalid cookie
+Given The system has job title
+When user request an API with invalid cookie
+Then response status must be 403 Forbidden
+And The system returns error message: "Session expired"
+
+Scenario: #TC11 -  API when limits less than 0
+Given The system has job title
+When user request job titles with: limit=-2
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "limit" ]}}
+
+Scenario: #TC12 -  API when limits is String
+Given The system has job title
+When user request job titles with: limit= abc
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "limit" ]}}
+
+Scenario: #TC13 -  API when limits is Null
+Given The system has job title
+When user request job titles with: limit: " "
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "limit" ]}}
+
+Scenario: #TC14 -  API when off set less than 0
+Given The system has job title
+When user request job titles with: limit= 5,  offset= -2
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "offset" ]}}
+
+Scenario: #TC15 -  API when off set is String
+Given The system has job title
+When user request job titles with: limit= 5, offset= abc
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "offset" ]}}
+
+Scenario: #TC16 -  API when off set is Null
+Given The system has job title
+When user request job titles with: offset: " "
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "offset" ]}}
+
+Scenario: #TC17 -  API when Invalid sort Field
+Given The system has job title
+When user request job titles with: limit= 5,  offset= 1, sortField= u.unknow
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "sortField" ]}}
+
+Scenario: #TC18 -  API when sort Field is Null
+Given The system has job title
+When user request job titles with: limit= 5,  offset= 1, sortField= " "
+Then response status must be 422
+And The system returns error { message: "Invalid Parameter", "data": {"invalidParamKeys": [ "sortField" ]}}

@@ -1,0 +1,14 @@
+baseApi: https://opensource-demo.orangehrmlive.com/web/index.php/api/v2
+baseUrl: https://opensource-demo.orangehrmlive.com/web/index.php/auth
+
+endpoints:
+  auth:
+    login: login
+    validate: validate
+  admin:
+    users: admin/users
+    jobTitles: admin/job-titles
+
+auth:
+  username: Admin
+  password: admin123

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "#TC1",
+    "description": "Return default job titles when limit is 0",
+    "params": {
+      "offset": 0,
+      "limit": 0,
+      "sortField": "jt.jobTitleName",
+      "sortOrder": "ASC"
+    },
+    "expectedSize": null,
+    "status": 200
+  },
+  {
+    "id": "#TC2",
+    "description": "Return default job titles when no parameters",
+    "params": {
+    },
+    "expectedSize": null,
+    "status": 200
+  },
+  {
+    "id": "#TC3",
+    "description": "Limit the number of returned job titles",
+    "params": {
+      "offset": 0,
+      "limit": 10,
+      "sortField": "jt.jobTitleName",
+      "sortOrder": "ASC"
+    },
+    "expectedSize": 10,
+    "status": 200
+  },
+  {
+    "id": "#TC4",
+    "description": "Handle very large limit value",
+    "params": {
+      "offset": 0,
+      "limit": 99999999999999999999999999999999999,
+      "sortField": "jt.jobTitleName",
+      "sortOrder": "ASC"
+    },
+    "expectedSize": null,
+    "status": 200
+  },
+  {
+    "id": "#TC5",
+    "description": "Return correctly offset of job titles",
+    "params": {
+      "offset": 2,
+      "limit": 5,
+      "sortField": "jt.jobTitleName",
+      "sortOrder": "ASC"
+    },
+    "expectedSize": 5,
+    "status": 200
+  }
+]

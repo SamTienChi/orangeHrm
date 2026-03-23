@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "id": "#number",
+      "title": "#string",
+      "description": "##string",
+      "note": "##string",
+      "jobSpecification": {
+        "id": "##number",
+        "filename": "##string",
+        "fileType": "##string",
+        "fileSize": "##string"
+      }
+    }
+  ],
+  "meta": {
+    "total": "#number"
+  },
+  "rels": "#[]"
+}
+
