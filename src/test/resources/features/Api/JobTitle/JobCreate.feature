@@ -16,3 +16,4 @@ Background: create new job
     """
     When method post
     Then status 200
+    * def data = response.data

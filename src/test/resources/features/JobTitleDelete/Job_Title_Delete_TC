@@ -1,0 +1,63 @@
+[Delete] job title
+Feature: Happy case
+Scenario: #DEL-JOB1 - Delete job title successfully
+Given The system has job record id [number]
+When user send DELETE request job titles with body: {"ids": [number]}
+Then response status must be 200
+And The system returns must contains data ["number"]
+
+Scenario: #DEL-JOB2 - Delete multiple job title successfully
+Given the system has multiple job record id [number,number, number]
+When user send DELETE request job title with body: {"ids": [number,number,number]}
+Then response status must be 200
+And The system returns must contains data ["number","number","number"]
+
+
+Feature: Unhappy case
+Scenario: #DEL-JOB3 - Delete with record not exists.
+Given The system has not record with id ["id not exists"]
+When user send DELETE request job title with body: {"ids": [id not exists]}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB4 - Delete with empty id.
+Given The system has job record
+When user send DELETE request job title with body: {"ids": []}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB5 - Delete with missing ids.
+Given The system has job record
+When user send DELETE request job title with body: {}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB6 - Delete with  request are not array.
+Given The system has job record
+When user send DELETE request job title with body: {"ids":number}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB7 - Delete with  ids is String.
+Given The system has job record
+When user send DELETE request job title with body: {"ids": "string"}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB8 - Delete with  ids is exists and other is not.
+Given The system has job record
+When user send DELETE request job title with body: {"ids":[number,id not exists]}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB9 - Delete with id is negative number
+Given the system has job record
+When user send DELETE request job title with body: {"ids": [-1]}
+Then response status must be 404
+And the system must return error message: "Records Not Found"
+
+Scenario: #DEL-JOB10 - Delete with large number id
+Given the system has job record
+When user send DELETE request job title with body: {"ids": [9999999999]}
+Then response status must be 404
+And the system must return error message: "Records Not Found"

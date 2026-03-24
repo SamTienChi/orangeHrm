@@ -8,4 +8,3 @@ Feature: Get list of job title
     Then status 200
     * def jobList = response.data
     * assert jobList.length > 0
-    * print 'Job list: ', jobList
