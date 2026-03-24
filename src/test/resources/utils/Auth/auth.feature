@@ -13,7 +13,6 @@ Background:
     * def csrfToken = response.match(/:token="&quot;(.*?)&quot;"/)[1]
     * print 'Token' ,csrfToken
 
-      # 🟢 STEP 2: login
     Given path 'validate'
     And form field _token = csrfToken
     And form field username = username
@@ -22,9 +21,8 @@ Background:
     Then status 302
 
 #    * print 'status get', responseStatus
-    * print 'Header get', responseHeaders
+#    * print 'Header get', responseHeaders
 #    * print 'Response get', response
     * def getCookie  = responseHeaders['Set-Cookie']
     * def cookies = getCookie.map(x => x.split(';')[0]).join('; ')
-#    * print 'cookies get: ',cookies
 
