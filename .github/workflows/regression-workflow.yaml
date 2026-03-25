@@ -5,7 +5,7 @@ on:
   pull_request:
 jobs:
   call-reusable:
-    uses: orangeHrm/.github/workflows/reusable-workflow.yaml@main
+    uses: ./.github/workflows/reusable-workflow.yaml
     with:
         node-version: '18'
 
