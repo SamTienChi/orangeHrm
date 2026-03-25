@@ -7,7 +7,7 @@ jobs:
   call-reusable:
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
-        java-version: '18'
+        java-version: '21'
 
   run-karate-test:
     runs-on: windows-latest
@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: '18'
+          java-version: '21'
 
       - name: Run regression tests
         run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @regression"
