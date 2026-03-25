@@ -7,11 +7,11 @@ on:
         type: choice
         required: true
         options:
-          - @regression
-          - @getJobApi
-          - @postJobApi
-          - @deleteJobApi
-        default: "@regression"
+          - regression
+          - getJobApi
+          - postJobApi
+          - deleteJobApi
+        default: "regression"
         description: "Your_role"
 jobs:
   call-reusable:
@@ -33,7 +33,7 @@ jobs:
           java-version: '21'
 
       - name: Run regression tests
-        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags ${{ github.event.inputs.YOUR_TAG}}"
+        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @${{ github.event.inputs.YOUR_TAG}}"
 
       - name: Upload Karate report
         if: always()
