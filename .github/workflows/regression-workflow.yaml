@@ -1,0 +1,20 @@
+name: Karate API Tests
+run-name: ${{ github.actor }} is testing our demo workflow
+on:
+  push:
+  pull_request:
+jobs:
+  call-reusable:
+    uses: orangeHrm/.github/workflows/reusable-workflow.yaml@main
+    with:
+        node-version: '18'
+    steps:
+      - name: run regression test
+      - run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @regression"
+
+      - name: Upload Karate report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: karate-report
+          path: target/karate-reports/

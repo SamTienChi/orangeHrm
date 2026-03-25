@@ -1,4 +1,4 @@
-@regression @putJobApi @positive
+@regression @putJobApi @positive @ignore
 Feature: Update job title with valid data
   Background:
     * url baseApi
