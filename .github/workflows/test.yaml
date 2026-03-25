@@ -1,0 +1,27 @@
+name: Karate API Tests
+run-name: ${{ github.actor }} is testing our demo workflow
+on:
+  push:
+  pull_request:
+jobs:
+    job-1:
+      name: Job on push
+      runs-on: orangeHrm-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+
+        - name: Setup Java
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'temurin'
+            java-version: '21'
+
+        - name: run test
+        - run: mvn test -Dtest=TestRunner#runTest
+
+        - name: Upload Karate report
+          uses: actions/upload-artifact@v3
+          with:
+            name: karate-report
+            path: target/karate-reports/
