@@ -7,7 +7,7 @@ jobs:
   call-reusable:
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
-        node-version: '18'
+        java-version: '18'
 
   run-karate-test:
     runs-on: windows-latest
