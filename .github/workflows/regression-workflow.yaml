@@ -11,8 +11,8 @@ on:
           - @getJobApi
           - @postJobApi
           - @deleteJobApi
-        description: "Your tag"
-
+        default: "@regression"
+        description: "Your_role"
 jobs:
   call-reusable:
     uses: ./.github/workflows/reusable-workflow.yaml
