@@ -8,12 +8,25 @@ jobs:
     uses: orangeHrm/.github/workflows/reusable-workflow.yaml@main
     with:
         node-version: '18'
+
+  run-karate-test:
+    runs-on: windows-latest
+    needs: call-reusable
     steps:
-      - name: run regression test
-      - run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @regression"
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '18'
+
+      - name: Run regression tests
+        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @regression"
 
       - name: Upload Karate report
-        if: always()
+        if: always()  # luôn upload report dù test fail/pass
         uses: actions/upload-artifact@v4
         with:
           name: karate-report
