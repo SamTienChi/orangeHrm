@@ -1,8 +1,17 @@
 name: Karate API Tests
 run-name: ${{ github.actor }} is testing our demo workflow
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      YOUR_TAG:
+        required: true
+        options:
+          - @regression
+          - @getJobApi
+          - @postJobApi
+          - @deleteJobApi
+        description: "Your tag"
+
 jobs:
   call-reusable:
     uses: ./.github/workflows/reusable-workflow.yaml
@@ -23,7 +32,7 @@ jobs:
           java-version: '21'
 
       - name: Run regression tests
-        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @regression"
+        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags ${{ github.event.inputs.YOUR_TAG}}"
 
       - name: Upload Karate report
         if: always()

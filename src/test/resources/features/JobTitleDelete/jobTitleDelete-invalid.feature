@@ -3,7 +3,6 @@ Feature: Delete job title with invalid
 Background:
   * url baseApi
   * path endpoints.admin.jobTitles
-
   @testDelete
   Scenario Outline: <id> - <description>
     * def getId = call read('classpath:features/Api/JobTitle/JobGet.feature')
