@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       YOUR_TAG:
+        type: choice
         required: true
         options:
           - @regression
