@@ -36,6 +36,7 @@ Feature: Update job title with valid invalid data
     Examples:
       |id| description | jobDescription| note| currentJobSpecification | status | errorMessage | invalidKey |
       |UD-JOB6|Update Invalid Jobspecification without image |"description update v2"|"invalidCurrent"|"note update v2"|422|"Invalid Parameter"|"currentJobSpecification"|
-      |UD-JOB7|Update successfully with only title|null|null|"keepCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
-      |UD-JOB8|Update successfully with only title|null|null|"deleteCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
-      |UD-JOB9|Update successfully with only title|null|null|"replaceCurrent"|422|"Invalid Parameter"|"specification"|
+      |UD-JOB7|Update when choosing keep current even no specification|null|null|"keepCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
+      |UD-JOB8|Update when choosing keep delete current even no specification|null|null|"deleteCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
+      |UD-JOB9|Update when choosing keep replace current even no specification|null|null|"replaceCurrent"|422|"Invalid Parameter"|"specification"|
+

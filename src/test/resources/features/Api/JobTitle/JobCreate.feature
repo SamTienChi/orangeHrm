@@ -1,4 +1,4 @@
-@api
+@Api
 Feature: Create Job title
 Background: create new job
   * url baseApi
