@@ -5,4 +5,13 @@ Background:
   * path endpoints.admin.jobTitles
 
   Scenario:
-    Given
+    * print 'ids =' , ids
+    Given request
+    """
+      {
+        "ids": #(ids)
+      }
+    """
+    When method delete
+    Then status 200
+
