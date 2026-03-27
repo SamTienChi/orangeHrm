@@ -1,15 +1,18 @@
 name: Karate API Tests
-run-name: ${{ github.actor }} is testing regression demo workflow
-
+run-name: ${{ github.actor }} is testing demand demo workflow
 on:
-  push:
-    branches:
-      - main
-
-  schedule:
-    - cron: '59 23 * * 5'
-#  workflow_dispatch:
-
+  workflow_dispatch:
+    inputs:
+      YOUR_TAG:
+        type: choice
+        required: true
+        options:
+          - regression
+          - getJobApi
+          - postJobApi
+          - deleteJobApi
+        default: "regression"
+        description: "Your_role"
 jobs:
   call-reusable:
     uses: ./.github/workflows/reusable-workflow.yaml
@@ -19,9 +22,6 @@ jobs:
   run-karate-test:
     runs-on: windows-latest
     needs: call-reusable
-    env:
-      regression: regression
-      smoke: smoke
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
           java-version: '21'
 
       - name: Run regression tests
-        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @${{env.regression}}"
+        run: mvn test -Dtest=TestRunner#runTest "-Dkarate.options=--tags @${{ github.event.inputs.YOUR_TAG}}"
 
       - name: Upload Karate report
         if: always()

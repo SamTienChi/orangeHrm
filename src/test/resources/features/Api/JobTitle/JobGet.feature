@@ -1,4 +1,4 @@
-@Api @apiTest
+@Api
 Feature: Get list of job title
   Background:
     * url baseApi

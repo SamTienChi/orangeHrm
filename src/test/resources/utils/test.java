@@ -1,4 +1,4 @@
 package utils;
 
-public class tesr {
+public class test {
 }
