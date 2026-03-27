@@ -21,7 +21,6 @@ jobs:
     needs: call-reusable
     env:
       regression: regression
-      smoke: smoke
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

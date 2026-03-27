@@ -4,6 +4,16 @@ Feature: Create a new job title
   Background:
     * url baseApi
     * path endpoints.admin.jobTitles
+    * def deleteIds = []
+    * configure afterScenario =
+    """
+    function(){
+      if (deleteIds.length > 0) {
+        karate.call('classpath:features/Api/JobTitle/JobDelete.feature', { ids: deleteIds });
+        deleteIds.length = 0;
+      }
+    }
+    """
 
   Scenario Outline: <id> - <description>
     * def randomData = Java.type('helpers.RandomData_helper')
@@ -33,6 +43,8 @@ Feature: Create a new job title
       "fileSize": null
     }
     """
+    * eval deleteIds.push(response.data.id)
+
 
     Examples:
       |id| description |jobDescription | note | status |
@@ -66,4 +78,7 @@ Feature: Create a new job title
     And match response.data.jobSpecification.filename == "file_test.png"
     And match response.data.jobSpecification.fileType == "image/png"
     And match response.data.jobSpecification.fileSize == fileBytes.length
+
+    * eval deleteIds.push(response.data.id)
+
 
