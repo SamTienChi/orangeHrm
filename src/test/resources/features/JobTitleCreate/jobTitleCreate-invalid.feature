@@ -45,7 +45,7 @@ Background:
   Scenario:CR-JOB8 - Create job title with duplicate title
     * def randomData = Java.type('helpers.RandomData_helper')
     * def titleName = "job " + randomData.randomUUIShort()
-    * call read('classpath:features/Api/JobTitle/JobCreate.feature'){ title: #(titleName) }
+    * call read('classpath:features/Api/JobTitle/JobCreate.feature'@non-image){ title: #(titleName) }
 
     Given request
     """

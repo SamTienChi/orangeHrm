@@ -7,7 +7,7 @@ Background:
 
   Scenario: DEL-JOB1 - Delete job title successfully
     * def titleName = "job " + randomData.randomUUIShort()
-    * def result = call read('classpath:features/Api/JobTitle/JobCreate.feature')
+    * def result = call read('classpath:features/Api/JobTitle/JobCreate.feature'@non-image)
     * def ids = [#(result.data.id)]
 
     Given request { ids: #(ids) }
@@ -24,11 +24,11 @@ Background:
 
   Scenario: DEL-JOB2 - Delete multiple job title successfully
     * def titleName = "job " + randomData.randomUUIShort()
-    * def result = call read('classpath:features/Api/JobTitle/JobCreate.feature')
+    * def result = call read('classpath:features/Api/JobTitle/JobCreate.feature'@non-image)
     * def ids = [#(result.data.id)]
 
     * def titleName = "job " + randomData.randomUUIShort()
-    * def result2 = call read('classpath:features/Api/JobTitle/JobCreate.feature')
+    * def result2 = call read('classpath:features/Api/JobTitle/JobCreate.feature'@non-image)
     * print 'result2 =', result2.data.id
     * karate.appendTo(ids, result2.data.id)
 
@@ -46,7 +46,7 @@ Background:
   Scenario: DEL-JOB8 - Delete with  ids is exists and other is not
     * def titleName = "job " + randomData.randomUUIShort()
     * def randomId = randomData.randomNumber()
-    * def result = call read('classpath:features/Api/JobTitle/JobCreate.feature')
+    * def result = call read('classpath:features/Api/JobTitle/JobCreate.feature'@non-image)
     * def ids = [#(result.data.id), #(randomId)]
 
     Given request { 'ids':#(ids) }

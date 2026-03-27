@@ -40,3 +40,4 @@ Feature: Update job title with valid invalid data
       |UD-JOB8|Update when choosing keep delete current even no specification|null|null|"deleteCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
       |UD-JOB9|Update when choosing keep replace current even no specification|null|null|"replaceCurrent"|422|"Invalid Parameter"|"specification"|
 
+    Scenario: <id> - <description>
