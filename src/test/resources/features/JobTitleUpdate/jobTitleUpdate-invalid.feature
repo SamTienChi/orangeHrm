@@ -30,14 +30,20 @@ Feature: Update job title with valid invalid data
     When method put
     Then status <status>
     Then match response.error.message == <errorMessage>
-    * print 'response error data= ', response.error.data
     * assert response.error.data != null ? response.error.data.invalidParamKeys == <invalidKey> : true
 
     Examples:
       |id| description | jobDescription| note| currentJobSpecification | status | errorMessage | invalidKey |
-      |UD-JOB6|Update Invalid Jobspecification without image |"description update v2"|"invalidCurrent"|"note update v2"|422|"Invalid Parameter"|"currentJobSpecification"|
+      |UD-JOB6|Update Invalid Job specification without image |"description update v2"|"invalidCurrent"|"note update v2"|422|"Invalid Parameter"|"currentJobSpecification"|
       |UD-JOB7|Update when choosing keep current even no specification|null|null|"keepCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
       |UD-JOB8|Update when choosing keep delete current even no specification|null|null|"deleteCurrent"|400|"`currentJobSpecification` should not define if there is no job specification"|null|
       |UD-JOB9|Update when choosing keep replace current even no specification|null|null|"replaceCurrent"|422|"Invalid Parameter"|"specification"|
 
     Scenario: <id> - <description>
+
+      Given path
+      And request payloadRequest()
+      When method put
+      Then status
+      * assert response.error.data
+
